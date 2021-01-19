@@ -47,4 +47,28 @@ public class WordsTest {
 
     }
 
+    @Test
+    void testgetCountWithoutStopWords() {
+
+        String input = "the a";
+        Assert.assertEquals(0, Words.getCountWithoutStopWords(input));
+
+        input = "Mary had a little lamb";
+        Assert.assertEquals(4, Words.getCountWithoutStopWords(input));
+
+        input = "";
+        Assert.assertEquals(0, Words.getCountWithoutStopWords(input));
+
+        input = "the a on off";
+        Assert.assertEquals(0, Words.getCountWithoutStopWords(input));
+
+        input = "the a on of";
+        Assert.assertEquals(1, Words.getCountWithoutStopWords(input));
+
+        input = "Hello World";
+        Assert.assertEquals(2, Words.getCountWithoutStopWords(input));
+
+
+    }
+
 }

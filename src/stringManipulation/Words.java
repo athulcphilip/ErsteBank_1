@@ -1,36 +1,55 @@
 package stringManipulation;
 
+import org.jetbrains.annotations.NotNull;
+import util.FileReader;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Words {
 
-    public static int wordCount(String s) {
 
-        int count = 0;
+    public static List<String> getWords(@NotNull final String text) {
 
-        final String temp = s;
+        final List<String> words = new ArrayList<>();
+        final Pattern pattern = Pattern.compile("[a-zA-Z]+");
+        Matcher matcher = pattern.matcher(text);
 
-        //StringUtils.isNotBlank
-        if (temp != null && temp.length() > 0) {
-            for (int i = 0; i < temp.length() - 1; i++) {
-
-                if (isChar(temp.charAt(i))) {
-                    if ((i - 1 >= 0 && !isChar(temp.charAt(i - 1)) || (i - 1 < 0))) {
-                        count++;
-                    }
-                }
-            }
+        while(matcher.find()) {
+            words.add(matcher.group());
         }
 
+        return words;
+
+    }
+
+    public static int getCountWithoutStopWords(@NotNull final String text) {
+
+       int count = 0;
+        try {
+            final List<String> stopWords =
+                    FileReader.readWordsFromFile("/Users/a-8637/Documents/ErsteBank/stopWords.txt");
+
+            final List<String> words = getWords(text);
+
+            count = (int) words.stream()
+                    .map(String::toLowerCase)
+                    .filter(word -> !stopWords.contains(word))
+                    .count();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return count;
 
     }
 
-    private static boolean isChar(char c) {
+    public static int wordCount(String s) {
 
-        final int ascii = (int) c;
+        return getWords(s).size();
 
-        return (ascii >= 65 && ascii <= 90) || (ascii >= 97 && ascii <= 122);
 
     }
-
-
 }

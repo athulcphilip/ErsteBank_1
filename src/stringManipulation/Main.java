@@ -16,7 +16,8 @@ public class Main {
 
             final String text = reader.readLine();
 
-            System.out.println("Number of Words : " + Words.wordCount(text));
+            System.out.println("Number of Words : " + Words.getCountWithoutStopWords(text));
+
 
         } catch (Exception e) {
 
